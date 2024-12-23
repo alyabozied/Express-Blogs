@@ -1,15 +1,37 @@
 // import httpStatus  from 'http-status';
-import { Response, Request } from 'express';
 // import pick  from '../utils/pick';
+import { Response, Request } from 'express';
 import ApiError  from '../utils/apiError';
 import catchAsync from '../utils/catchAsync';
 import { User }  from '../entity/user.entity';
-import { myDataSource } from "../app-data-source"
+import { encrypt } from "../utils/encrypt";
+import { myDataSource } from "../app-data-source";
+import { UserResponce} from "../dtos/user.dto"; // Import UserDto from the correct path
 
-// const createUser = catchAsync(async (req:Request, res:Response) => {
-//   const user = await userService.createUser(req.body);
-//   res.status(httpStatus.CREATED).send(user);
-// });
+const createUser =  catchAsync( async(req: Request, res: Response)=> {
+    const { firstName,lastName, email, password} = req.body;
+    const encryptedPassword = await encrypt.encryptpass(password);
+    const user = new User();
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+    user.password = encryptedPassword;
+
+    const userRepository = myDataSource.getRepository(User);
+    await userRepository.save(user);
+    // Use the UserResponse DTO to structure the data being sent in the response
+    const userdataSent = new UserResponce()
+    userdataSent.name = `${user.firstName} ${user.lastName}`;
+    userdataSent.email= user.email;
+    
+    const token = encrypt.generateToken({ id: user.id });
+
+    return res
+      .status(200)
+      .json({ message: "User created successfully", token, userdataSent });
+  } 
+)
+
 
 const getUsers = catchAsync(async (req:Request, res:Response) => {
   // const filter = pick(req.query, ['name', 'role']);
@@ -38,5 +60,5 @@ const getUsers = catchAsync(async (req:Request, res:Response) => {
 
 export {
   getUsers,
-  
+  createUser
 };

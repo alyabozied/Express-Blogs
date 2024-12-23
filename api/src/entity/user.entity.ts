@@ -17,7 +17,7 @@ export class User {
     @UpdateDateColumn()
     updated_on: Date;
     
-    @Column()
+    @Column({unique: true})
     email: string;
     
     
