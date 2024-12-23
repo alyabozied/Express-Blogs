@@ -1,12 +1,14 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "src/app.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./dist/app.js",
-    "dev": "nodemon ./app.ts",
-    "build": "tsc -p ."
+    "start": "node ./dist/src/app.js",
+    "dev": "nodemon ./src/app.ts",
+    "build": "tsc -p .",
+    "makemigration":"typeorm-ts-node-commonjs migration:generate -d ./src/app-data-source.ts ",
+    "migrate":"typeorm-ts-node-commonjs migration:run -d ./src/app-data-source.ts "
   },
   "author": "",
   "description": "",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/http-status": "^0.2.30",
     "@types/node": "^22.10.2",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
