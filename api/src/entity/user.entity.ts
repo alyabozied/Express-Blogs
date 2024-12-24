@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn,CreateDateColumn,UpdateDateColumn } from "typeorm";
-
+import { Entity, Column, PrimaryGeneratedColumn,CreateDateColumn,UpdateDateColumn ,OneToMany} from "typeorm";
+import { Blog } from "./blog.entity";
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -21,7 +21,9 @@ export class User {
     email: string;
     
     
-    @Column({ select: false })
+    @Column()
     password: string;
-    
+
+    @OneToMany(() => Blog, (blog) => blog.user, { cascade: true })
+    posts: Blog[];
 }

@@ -11,4 +11,6 @@ RUN npm i
 
 COPY . . 
 
-CMD npm run migrate && npm run dev
+
+RUN npm run build
+CMD npm run start

@@ -1,7 +1,12 @@
+import { User } from "src/entity/user.entity";
+
 class UserResponce {
     name: string;
     email: string;
-    
+    constructor (user:User){
+        this.name = user.firstName + user.lastName;
+        this.email = user.email;
+    }
 }
 
 class UserCreateRequest {
@@ -12,6 +17,7 @@ class UserCreateRequest {
 }
 class payload {
     id:number;
+    email:string;
 }
 
 export {

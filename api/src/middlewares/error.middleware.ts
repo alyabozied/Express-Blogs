@@ -1,11 +1,26 @@
-import { NextFunction, Request, Response } from "express";
+import { StatusCodes } from 'http-status-codes';
+import ApiError from '../utils/apiError';
+import { Request,Response,NextFunction } from 'express';
 
-export const errorHandler = (
-  error: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  console.error(`Error: ${error.message}`);
-  return res.status(500).json({ message: "Internal server error" });
+const errorHandler = (err:ApiError, req:Request, res:Response, next:NextFunction) => {
+  let { statusCode, message } = err;
+  console.log(statusCode,message)
+  if (process.env.NODE_ENV === 'production' && !err.isOperational) {
+    statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    message = StatusCodes[httpStatus.INTERNAL_SERVER_ERROR];
+  }
+
+  res.locals.errorMessage = err.message;
+
+  const response = {
+    code: statusCode,
+    message,
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+  };
+
+  res.status(statusCode).send(response);
+};
+
+export {
+  errorHandler,
 };

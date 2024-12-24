@@ -1,15 +1,16 @@
 import express from 'express'
+import validate from '../../middlewares/validate';
 // const auth = require('../../middlewares/auth');
-// const validate = require('../../middlewares/validate');
-// const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+import {createUserValidation} from '../../validations/user.validation'
+import { authentification } from '../../middlewares/auth.middleware';
+import {  getUsers,createUser}  from '../../controllers/user.controller';
 
 export const userRoute = express.Router();
 
 userRoute
   .route('/')
-  .get(userController.getUsers)
-  .post(userController.createUser);
+  .get(authentification,getUsers)
+  .post(validate(createUserValidation),createUser);
   // .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
 
 // userRoute

@@ -4,6 +4,7 @@ import { myDataSource } from "../app-data-source";
 import { User } from "../entity/user.entity";
 import { encrypt } from "../utils/encrypt";
 import catchAsync from "../utils/catchAsync";
+import { UserResponce } from "../dtos/user.dto";
 
 
  const login = catchAsync (async(req: Request, res: Response)=> {
@@ -15,7 +16,7 @@ import catchAsync from "../utils/catchAsync";
       }
 
       const userRepository = myDataSource.getRepository(User);
-      const user = await userRepository.findOne({ where: { email } ,select:{password} });
+      const user = await userRepository.findOne({ where: { email }  });
       console.log(user)
       if(!user) {
         return res.status(404).json({message:"email or the password are incorrect"})
@@ -24,9 +25,9 @@ import catchAsync from "../utils/catchAsync";
       if (!user || !isPasswordValid) {
         return res.status(404).json({message:"email or the password are incorrect"})
       }
-      const token = encrypt.generateToken({ id: user.id });
-
-      return res.status(200).json({ message: "Login successful", user, token });
+      const token = encrypt.generateToken({ id: user.id,email:user.email });
+      const userdataSent = new UserResponce(user)
+      return res.status(200).json({ message: "Login successful",userdataSent, token });
   })
 
 const getProfile = catchAsync (async (req: CustomRequest, res: Response)=> {

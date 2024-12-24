@@ -6,6 +6,7 @@ dotenv.config()
 import httpStatus from 'http-status';
 import ApiError from './utils/apiError'
 import { myDataSource } from "./app-data-source"
+import { errorHandler } from './middlewares/error.middleware';
 
 // establish database connection
 myDataSource
@@ -29,44 +30,7 @@ app.use('/v1', V1Routes);
 app.use((req:Request, res:Response, next:NextFunction) => {
     next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
   });
-  
-
-// 🏚️ Default Route
-// This is the Default Route of the API
-
-// register routes
-// app.get("/users", async function (req: Request, res: Response) {
-//     const users = await myDataSource.getRepository(User).find()
-//     res.json(users)
-// })
-
-// app.get("/users/:id", async function (req: Request, res: Response) {
-//     const results = await myDataSource.getRepository(User).findOneBy({
-//         id: req.params.id,
-//     })
-//     return res.send(results)
-// })
-
-// app.post("/users", async function (req: Request, res: Response) {
-//     const user = await myDataSource.getRepository(User).create(req.body)
-//     const results = await myDataSource.getRepository(User).save(user)
-//     return res.send(results)
-// })
-
-// app.put("/users/:id", async function (req: Request, res: Response) {
-//     const user = await myDataSource.getRepository(User).findOneBy({
-//         id: req.params.id,
-//     })
-//     myDataSource.getRepository(User).merge(user, req.body)
-//     const results = await myDataSource.getRepository(User).save(user)
-//     return res.send(results)
-// })
-
-// app.delete("/users/:id", async function (req: Request, res: Response) {
-//     const results = await myDataSource.getRepository(User).delete(req.params.id)
-//     return res.send(results)
-// })
-
+app.use(errorHandler);
 
 
 const port = process.env.PORT;
