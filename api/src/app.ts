@@ -3,6 +3,7 @@ import express , {Request , Response,NextFunction} from 'express';
 import V1Routes from './routes/v1/index'
 import dotenv from 'dotenv'
 dotenv.config()
+import cors from 'cors';
 import httpStatus from 'http-status';
 import ApiError from './utils/apiError'
 import { myDataSource } from "./app-data-source"
@@ -20,6 +21,7 @@ myDataSource
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.get('/', async (req:Request ,res:Response) => {
     res.json({ message: 'Hello from Express' });
 });
@@ -32,8 +34,8 @@ app.use((req:Request, res:Response, next:NextFunction) => {
   });
 app.use(errorHandler);
 
-
 const port = process.env.PORT;
 app.listen(port , () => {
     console.log(`Express server is running on port ${process.env.PORT}`);
 });
+

@@ -14,6 +14,7 @@ export default class UserService{
         if( alreadyExisted != null)
             throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
         await userRepository.save(user);
+        console.log(user)
         return user
     }
     static getUsers = async()=>{

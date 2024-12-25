@@ -1,9 +1,35 @@
 'use client'
+import { FormEvent } from 'react'
 import TextField from "@/components/TextField";
 import Link from "next/link";
 import React from "react";
+// import { useRouter } from 'next/router'
 
 export default function Login(){
+    // const router = useRouter()
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        
+        const formData = new FormData(event.currentTarget)
+        const email = formData.get('email')
+        const password = formData.get('password')
+        
+        const response = await fetch('http://127.0.0.1:4000/v1/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' ,
+            'Access-Control-Allow-Origin':'*'},
+            body: JSON.stringify({ email, password }),
+        })
+        
+        if (response.ok) {
+            // router.push('/profile')
+            console.log("tmamt")
+            console.log(await response.json())
+        } else {
+            // Handle errors
+            console.log("error")
+        }
+    }
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-screen-3/4 flex-grow">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0">
@@ -15,7 +41,7 @@ export default function Login(){
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Sign in to your account
                     </h1>
-                    <form className="space-y-4 md:space-y-6" action="#">
+                    <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
                     <TextField label = 'email' labelFor ='email' name='email' placeholder="your email" required={true}></TextField>
                     <TextField label = 'password' labelFor ='password' name='password' type='password' placeholder="*****" isPassword={true} required={true}></TextField>
                         <div className="flex items-center justify-between">
