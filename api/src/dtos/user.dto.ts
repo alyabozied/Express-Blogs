@@ -14,6 +14,7 @@ class UserCreateRequest {
     lastName:string;
     email:string;
     password:string;
+
 }
 class payload {
     id:number;

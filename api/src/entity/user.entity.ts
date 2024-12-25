@@ -12,10 +12,10 @@ export class User {
     lastName: string;
     
     @CreateDateColumn()
-    created_on: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updated_on: Date;
+    updatedAt: Date;
     
     @Column({unique: true})
     email: string;
@@ -25,5 +25,5 @@ export class User {
     password: string;
 
     @OneToMany(() => Blog, (blog) => blog.user, { cascade: true })
-    posts: Blog[];
+    blogs: Blog[];
 }

@@ -10,9 +10,11 @@ import UserService from '../services/user.service';
 const createUser =  catchAsync( async(req: Request, res: Response)=> {
     const { firstName,lastName, email, password} = req.body;
     const encryptedPassword = await encrypt.encryptpass(password);
-  
+    
     const user = await UserService.createUser(email,encryptedPassword,lastName,firstName);
+    console.log(user)
     const userdataSent = new UserResponce(user)
+    console.log(userdataSent)
     const token = encrypt.generateToken({ id: user.id ,email:user.email});
     return res
       .status(200)
@@ -31,24 +33,4 @@ const getUsers = catchAsync(async (req:Request, res:Response) => {
 export {
   getUsers,
   createUser
-  
-  
-  
-  // const getUser = catchAsync(async (req:Request, res:Response) => {
-  //   const user = await userService.getUserById(req.params.userId);
-  //   if (!user) {
-  //     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  //   }
-  //   res.send(user);
-  // });
-  
-  // const updateUser = catchAsync(async (req:Request, res:Response) => {
-  //   const user = await userService.updateUserById(req.params.userId, req.body);
-  //   res.send(user);
-  // });
-  
-  // const deleteUser = catchAsync(async (req:Request, res:Response) => {
-  //   await userService.deleteUserById(req.params.userId);
-  //   res.status(httpStatus.NO_CONTENT).send();
-  // });
 };

@@ -12,11 +12,11 @@ export class Blog {
     content: string;
  
     @CreateDateColumn()
-    created_on: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updated_on: Date;
+    updatedAt: Date;
  
-    @ManyToOne(() => User, (user) => user.posts, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, (user) => user.blogs, { onDelete: 'CASCADE' })
     user: User;
   }

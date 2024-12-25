@@ -17,11 +17,10 @@ import { UserResponce } from "../dtos/user.dto";
 
       const userRepository = myDataSource.getRepository(User);
       const user = await userRepository.findOne({ where: { email }  });
-      console.log(user)
       if(!user) {
         return res.status(404).json({message:"email or the password are incorrect"})
       }
-      const isPasswordValid = encrypt.comparepassword(user.password, password);
+      const isPasswordValid = await encrypt.comparepassword(user.password, password);
       if (!user || !isPasswordValid) {
         return res.status(404).json({message:"email or the password are incorrect"})
       }

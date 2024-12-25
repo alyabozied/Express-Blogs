@@ -1,16 +1,25 @@
 import * as jwt from "jsonwebtoken";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import * as dotenv from "dotenv";
 import { payload } from "../dtos/user.dto";
 
 dotenv.config();
 const { JWT_SECRET = "" } = process.env;
 export class encrypt {
-  static  encryptpass(password: string) {
-    return bcrypt.hashSync(password, 12);
+  static async encryptpass(password: string) {
+    try{
+
+      
+      const hashed = await bcrypt.hash(password,12);
+      return hashed;
+    }
+    catch(err){
+      console.log(err)
+    }
+    return ""
   }
-  static comparepassword(hashPassword: string, password: string) {
-    return bcrypt.compareSync(password, hashPassword);
+  static async comparepassword(hashPassword: string, password: string) {
+    return await bcrypt.compareSync(password, hashPassword);
   }
 
   static generateToken(payload: payload) {
