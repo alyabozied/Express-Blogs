@@ -1,8 +1,23 @@
 'use client'
+import { Button } from "@/components/Button";
 import TextField from "@/components/TextField"
 import Link from "next/link"
+import { useAppContext } from '@/context';
+import { signup } from '@/app/auth/auth';
+import {useFormStatus } from 'react-dom';
+import { useRouter } from 'next/navigation'
+import React, { useActionState, useEffect } from "react";
 
 export default function Signup(){
+    const {setState} = useAppContext()
+    const router = useRouter()
+    const [formState, action] = useActionState(signup, undefined);
+    useEffect(()=>{
+        if(formState?.ok){
+            setState({isLoggedIn:true})
+            router.push("/dashboard")
+        }
+    },[formState])
     return (<section className="bg-gray-50 dark:bg-gray-900 h-screen-3/4 flex-grow">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
@@ -13,13 +28,25 @@ export default function Signup(){
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         Make a new user
                     </h1>
-                    <form className="space-y-4 md:space-y-6" action="#">
-                    <TextField label = 'username' labelFor ='username' name='username' placeholder="your username" required={true}></TextField>
+                    <form className="space-y-4 md:space-y-6" action={action}>
+                    
                     <TextField label = 'first name' labelFor ='firstName' name='firstName' placeholder="your firstName" required={true}></TextField>
+                    {formState?.errors?.lastName && (<p className="text-sm text-red-500">{formState.errors.lastName}</p>)}
+
+                    
                     <TextField label = 'last name' labelFor ='lastName' name='lastName' placeholder="your lastName" required={true}></TextField>
+                    {formState?.errors?.firstName && (<p className="text-sm text-red-500">{formState.errors.firstName}</p>)}
+
+                    
                     <TextField label = 'email' labelFor ='email' name='email' placeholder="your email" required={true}></TextField>
+                    {formState?.errors?.email && (<p className="text-sm text-red-500">{formState.errors.email}</p>)}
+
+                    
                     <TextField label = 'password' labelFor ='password' name='password' type='password' placeholder="*****" isPassword={true} required={true}></TextField>
-                        <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign up</button>
+                    {formState?.errors?.password && (<p className="text-sm text-red-500">{formState.errors.password}</p>)}
+                    {formState?.message && (<p className="text-sm text-red-500">{formState.message}</p>)}
+
+                        <SignUp/>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                             already have an account? <Link href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">login</Link>
                         </p>
@@ -29,3 +56,11 @@ export default function Signup(){
         </div>
     </section>)
 }
+export function SignUp() {
+    const { pending } = useFormStatus();
+    return (
+      <Button aria-disabled={pending} type="submit" className="mt-4 w-full">
+        {pending ? 'Submitting...' : 'Sign up'}
+      </Button>
+    );
+  }
