@@ -1,9 +1,9 @@
 import express from 'express'
-// const authRoute = require('./auth.route');
-import {userRoute} from './user.route';
-import {authRoute} from './auth.route'
 // const docsRoute = require('./docs.route');
 // const config = require('../../config/config');
+import {userRoute} from './user.route';
+import {authRoute} from './auth.route';
+import blogsRoutes from './blogs.route';
 
 const V1Router = express.Router();
 
@@ -16,6 +16,10 @@ const defaultRoutes = [
     path: '/users',
     route: userRoute,
   },
+  {
+    path:'/blogs',
+    route: blogsRoutes
+  }
 ];
 
 // const devRoutes = [

@@ -14,13 +14,17 @@ export default class UserService{
         if( alreadyExisted != null)
             throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken')
         await userRepository.save(user);
-        console.log(user)
         return user
     }
     static getUsers = async()=>{
         const userRepository = myDataSource.getRepository(User);
         const users = await userRepository.find()
         return users
+    }
+    static getUser = async(id:number)=>{
+        const userRepository = myDataSource.getRepository(User);
+        const user = await userRepository.findOne({where:{id}})
+        return user
     }
 
 }
