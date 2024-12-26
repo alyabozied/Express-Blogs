@@ -1,54 +1,54 @@
-// import { GetServerSidePropsContext } from "next";
-// import { cookies } from "next/headers";
-// type Props = {
-//     user: {
-//         email:string;
-//         username:string
-//     }
+import { cookies } from 'next/headers';
+import Card from '@/components/card'
+
+type Props = {
+  blogs: {
+    id: number,
+    title: string,
+    content: string ,
+    createdAt: Date,
+    updatedAt:Date
+  }[];
+};
+// export default function Dashboard() {
+//   return <div></div>;
 // }
-export default function Dashboard() {
-    return (
-      <div>
-        dashboard
-      </div>
-    );
-  }
-// export async function getServerSideProps(context:GetServerSidePropsContext) {
-//     const session = (await cookies()).get("session")?.value
-//     console.log(process.env.API_URL)
-//     if (!session) {
-//       return {
-//         redirect: {
-//           destination: '/login',
-//           permanent: false,
-//         },
-//       };
-//     }
-//     // Verify the token and fetch user data (e.g., from an API or database)
-//   try {
-//     const response = await fetch(process.env.API_URL + "/v1/users", {
-//       headers: {
-//         Authorization: `Bearer ${session}`,
-//       },
-//     });
+export default async function Dashboard() {
+  const props:Props = await getServerSideProps()
+  return <div className='mx-10 my-10 grid grid-cols-2 gap-2'>
+    {
+      props.blogs.map((element)=>{
+        return (<div>
+          <Card title={element.title} content ={element.content}></Card>
+        </div>)
+      })
+    }
+  </div>;
+}
+async function getServerSideProps(){
+  const session = (await cookies()).get("session")
+  try {
+    const response = await fetch(process.env.API_URL + "/v1/blogs", {
+      method:"get",
+      headers: {
+        Authorization: `Bearer ${session?.value}`,
+      },
+    });
+    const blogs = await response.json();
+    console.log(blogs)
+    if (!response.ok) {
+      throw new Error("not authorized");
+    }
 
-//     if (!response.ok) {
-//       throw new Error('Failed to authenticate');
-//     }
 
-//     const user = await response.json();
+    return {
+        blogs,
+    };
+  } catch (error) {
+    console.log(error)
+    return {
+      blogs:[]
+      }
+  };
+}
 
-//     return {
-//       props: {
-//         user,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     };
-//   }
-// }

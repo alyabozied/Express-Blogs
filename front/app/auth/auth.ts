@@ -31,7 +31,7 @@ export async function signup(
   // 2. Prepare data 
   const { firstName ,lastName, email, password } = validatedFields.data;
 
-  const response = await fetch('http://127.0.0.1:4000/v1/users/', {
+  const response = await fetch(process.env.API_URL + '/v1/users/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' ,},
       body: JSON.stringify({ email, password,firstName,lastName }),
@@ -65,7 +65,7 @@ export async function login(
     };
   }
   const {email , password} = validatedFields.data
-  const response = await fetch('http://127.0.0.1:4000/v1/auth/login', {
+  const response = await fetch( process.env.API_URL + '/v1/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -81,9 +81,9 @@ export async function login(
 
 }
 
-export async function  deleteSession() {
-  (await cookies()).delete('session');
-}
+
 export async function logout() {
-  await deleteSession();
+  const cookie = await cookies()
+  cookie.delete('session');
+  
 }

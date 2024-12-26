@@ -1,8 +1,8 @@
-'use clients'
-import Link from "next/dist/client/link";
+'use client'
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function NavLink({url,text,isCurrent}:{url:string , text:string , isCurrent:boolean}){
+export default function NavLink({url,text}:{url:string , text:string , isCurrent:boolean}){
     const pathName = usePathname()
 
     

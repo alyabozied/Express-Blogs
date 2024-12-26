@@ -48,7 +48,7 @@ export default function Login(){
   );
 }
 
-export function LoginButton() {
+function LoginButton() {
     const { pending } = useFormStatus();
     return (
       <Button aria-disabled={pending} type="submit" className="mt-4 w-full">

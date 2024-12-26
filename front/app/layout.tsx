@@ -24,6 +24,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("يا مضحك بترندر كل مرة الصفحة من اول و جديد ")
   return (
     <html lang="en">
       <body
@@ -35,7 +36,6 @@ export default function RootLayout({
                 {children}
               <Footer ></Footer>
             </AppWrapper>
-          
         </div>
       </body>
     </html>

@@ -1,34 +1,33 @@
-"use client"
-import { createContext,useContext, useEffect, useState } from "react";
+"use client";
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface AppState {
-    isLoggedIn:boolean
+  isLoggedIn: boolean;
+}
+const initailState: AppState = {
+  isLoggedIn: false,
 };
-const initailState:AppState = {
-    isLoggedIn:false
-}
 const AppContext = createContext<any>(undefined);
-export function AppWrapper({children}:{
-    children: React.ReactNode;
-}){
-    let [state , setState] = useState(initailState)
-    useEffect(()=>{
-        
-            fetch("api/checkauth").then(response=>{
-
-                if(response.ok){setState({isLoggedIn:true})}
-                else{setState({isLoggedIn:false})}
-            }).catch(err=>setState({isLoggedIn:false}))
-            
+export function AppWrapper({ children }: { children: React.ReactNode }) {
+    console.log("renderd again")
+  let [state, setState] = useState(initailState);
+  useEffect(() => {
+    fetch("api/checkauth")
+      .then((response) => {
+        if (response.ok) {
+          setState({ isLoggedIn: true });
+        } else {
+          setState({ isLoggedIn: false });
         }
-        
-    ,[])
-    return (
-        <AppContext.Provider value={{state,setState}}>
-            {children}
-        </AppContext.Provider>
-    )
+      })
+      .catch((err) => setState({ isLoggedIn: false }));
+  }, []);
+  return (
+    <AppContext.Provider value={{ state, setState }}>
+      {children}
+    </AppContext.Provider>
+  );
 }
-export function useAppContext(){
-    return useContext(AppContext)
+export function useAppContext() {
+  return useContext(AppContext);
 }

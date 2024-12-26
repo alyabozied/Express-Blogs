@@ -56,7 +56,7 @@ export default function Signup(){
         </div>
     </section>)
 }
-export function SignUp() {
+function SignUp() {
     const { pending } = useFormStatus();
     return (
       <Button aria-disabled={pending} type="submit" className="mt-4 w-full">
