@@ -2,7 +2,7 @@
 export default function About() {
 
     return (
-        <section className="bg-gray-50 dark:bg-gray-900 flex-grow h-screen-3/4">
+        <section className="bg-gray-50 dark:bg-transparent flex-grow h-screen-3/4">
         <div className="flex flex-col items-center container justify-center mt-200 mx-auto  overflow-y-auto">
             <div className="p-4 w-full justify-start items-center gap-12 grid lg:grid-cols-2 grid-cols-1">
                 <div
@@ -17,7 +17,7 @@ export default function About() {
                     <div className="w-full flex-col justify-center items-start gap-8 flex">
                         <div className="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
                             <h2
-                                className="text-gray-900 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
+                                className="text-gray-900 text-4xl font-bold font-manrope leading-normal dark:text-white lg:text-start text-center">
                                 Empowering Each Other to Succeed</h2>
                             <p className="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
                             Hi, I&apos;m Sarah, the writer behind &quot;The Wanderlust Kitchen.&quot; Ever since I was a child, I&apos;ve been fascinated by the world of flavors.

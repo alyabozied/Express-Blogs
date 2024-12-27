@@ -8,7 +8,7 @@ export class Blog {
     @Column()
     title: string;
   
-    @Column()
+    @Column("text")
     content: string;
  
     @CreateDateColumn()
