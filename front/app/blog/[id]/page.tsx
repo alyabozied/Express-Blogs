@@ -25,7 +25,7 @@ export default async function BlogPage({
 }) {
   const blogId = (await params).id;
   const session = (await cookies()).get("session")?.value || " ";
-  const { username, id } = decrpytjwt(session);
+  const {id } = decrpytjwt(session);
   const blog: Blog = await getServerSideProps(blogId);
   return (
     <>
@@ -105,7 +105,7 @@ async function getServerSideProps(id: number) {
   }
 }
 
-export const dateFormatter = new Intl.DateTimeFormat("en-US", {
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric",
   year: "numeric",

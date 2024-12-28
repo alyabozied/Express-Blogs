@@ -14,10 +14,12 @@ export async function createBlog(
   const validatedFields = BlogFormSchema.safeParse({
     title: formData.get('title'),
     content: formData.get('content'),
+    id:"0"
   });
 
   // If any form fields are invalid, return early
   if (!validatedFields.success) {
+    console.log("vsjvsdvbdsjvbjdsjbvs ")
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };

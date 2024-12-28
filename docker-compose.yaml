@@ -1,33 +1,4 @@
 services:
-  # api:
-  #   build: api
-  #   ports:
-  #     - 3000:3000
-  #   restart:
-  #     always
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
-  #   environment:
-  #     DATABASE_URL : mysql://nodeapp:12345@db:3306/blogs
-  # db:
-  #   image: mysql
-  #   # command: --init-file /data/application/init.sql
-  #   environment:
-  #    MYSQL_ROOT_PASSWORD: root
-  #    MYSQL_DATABASE: blogs
-  #    MYSQL_USER: nodeapp
-  #    MYSQL_PASSWORD: 12345
-  #    MYSQL_ROOT_HOST: "%"
-  #   ports:
-  #   - 3306:3306
-  #   volumes:
-  #     - ./data:/var/lib/mysql
-  #     - ./init.sql:/data/application/init.sql
-  #   healthcheck:
-  #     test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-  #     timeout: 20s
-  #     retries: 10
   api:
     build: api
     ports:
@@ -69,9 +40,10 @@ services:
       timeout: 20s
       retries: 10
     volumes: 
+      - ./data:/var/lib/mysql
       - ./init:/docker-entrypoint-initdb.d
 
-# volumes:
-#   data:
+volumes:
+  data:
 
 
