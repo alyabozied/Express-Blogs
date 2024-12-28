@@ -18,11 +18,18 @@ export const authentification = (
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  const decode = jwt.verify(token, process.env.JWT_SECRET || "hello") as payload;
-  if (!decode) {
-    return res.status(401).json({ message: "Unauthorized" });
+  try{
+
+    const decode = jwt.verify(token, process.env.JWT_SECRET || "hello") as payload;
+    if (!decode) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    
+    req.userID = decode.id;
   }
-  req.userID = decode.id;
+  catch(error){
+    return res.status(401).json({ message: error.message }); 
+  }
   next();
 };
 

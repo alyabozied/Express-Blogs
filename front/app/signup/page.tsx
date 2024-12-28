@@ -14,8 +14,8 @@ export default function Signup(){
     const [formState, action] = useActionState(signup, undefined);
     useEffect(()=>{
         if(formState?.ok){
-            setState({isLoggedIn:true})
-            router.push("/dashboard")
+            setState({isLoggedIn:true,username:formState.username,id:formState.id})
+            router.push("/dashboard?page=1&limit=2")
         }
     },[formState])
     return (<section className="bg-gray-50 dark:bg-gray-900 h-screen-3/4 flex-grow">

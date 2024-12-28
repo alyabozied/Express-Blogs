@@ -3,19 +3,24 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface AppState {
   isLoggedIn: boolean;
+  username?:string,
+  id?:number
 }
 const initailState: AppState = {
   isLoggedIn: false,
 };
 const AppContext = createContext<any>(undefined);
 export function AppWrapper({ children }: { children: React.ReactNode }) {
-    console.log("renderd again")
-  let [state, setState] = useState(initailState);
+    let [state, setState] = useState(initailState);
   useEffect(() => {
-    fetch("api/checkauth")
+    fetch("/api/checkauth")
       .then((response) => {
         if (response.ok) {
-          setState({ isLoggedIn: true });
+          response.json().then(json=>{
+            console.log(json)
+            setState({ isLoggedIn: true ,username:json.username , id:json.id});
+
+          })
         } else {
           setState({ isLoggedIn: false });
         }

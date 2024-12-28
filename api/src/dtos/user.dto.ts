@@ -18,7 +18,7 @@ class UserCreateRequest {
 }
 class payload {
     id:number;
-    email:string;
+    username:string;
 }
 
 export {

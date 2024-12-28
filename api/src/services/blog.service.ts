@@ -18,9 +18,21 @@ export default class BlogService{
         await this.blogRepository.save(blog);
         return blog
     }
-    static getBlogs = async()=>{
-        const blogs = await this.blogRepository.find({relations:{user:true}})
-        return blogs
+    static getBlogs = async(page: number =1 , limit?:number)=>{
+        const count = await this.blogRepository.count();
+        if(!limit || limit === -1){
+            const blogs = await this.blogRepository.find({relations:{user:true}})    
+            return {blogs,count}
+        }
+        page = page > 1 ? page : 1 
+        
+        const blogs = await this.blogRepository.createQueryBuilder('blog')
+                                               .leftJoinAndSelect("blog.user" , "user")
+                                               .skip((page-1) * limit)
+                                               .take(limit)
+                                               .getMany()
+                                    
+        return {blogs,count}
     }
     static deleteBlog = async(id:number,userId:number)=>{
         const blog = await this.getBlog(id);

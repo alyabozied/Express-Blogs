@@ -26,10 +26,16 @@ const deleteBlog = catchAsync(async (req:CustomRequest ,res:Response)=>{
 })
 
 const getBlogs = catchAsync(async (req:Request, res:Response) => {
-  const blogs = await BlogService.getBlogs()
+  const page = parseInt(req.query.page?.toString() || "1",10)
+  const limit = parseInt(req.query.limit?.toString()|| "-1")
+  const blogs = await BlogService.getBlogs(page , limit)
   return res.send(blogs);
 });
 
+const getBlog = catchAsync(async (req:Request<{id:number}>, res:Response) => {
+  const blog = await BlogService.getBlog(req.params.id)
+  return res.send(blog);
+});
 const putBlog = catchAsync(async (req:CustomRequest, res:Response) => {
   const {content, title , id} = req.body
   const userId = req.userID
@@ -55,5 +61,6 @@ export {
   createBlog,
   deleteBlog,
   putBlog,
-  patchBlog
+  patchBlog,
+  getBlog
 };

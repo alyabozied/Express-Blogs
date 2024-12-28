@@ -12,10 +12,8 @@ const createUser =  catchAsync( async(req: Request, res: Response)=> {
     const encryptedPassword = await encrypt.encryptpass(password);
     
     const user = await UserService.createUser(email,encryptedPassword,lastName,firstName);
-    console.log(user)
     const userdataSent = new UserResponce(user)
-    console.log(userdataSent)
-    const token = encrypt.generateToken({ id: user.id ,email:user.email});
+    const token = encrypt.generateToken({ id: user.id ,username:`${user.firstName} ${user.lastName}`});
     return res
       .status(200)
       .json({ message: "User created successfully", token, userdataSent });

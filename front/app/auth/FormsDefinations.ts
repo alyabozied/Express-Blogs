@@ -22,7 +22,10 @@ export const LoginFormSchema = z.object({
     email: z.string().email({ message: 'Please enter a valid email.' }),
     password: z.string().min(1, { message: 'Password field must not be empty.' }),
 });
-
+export const BlogFormSchema = z.object({
+    title: z.string().min(10 , { message: 'Title must be at least 10 characters long.' }),
+    content: z.string().min(10, { message: 'Title must be at least 10 characters long.' }),
+});
 export type FormState =
     | {
         errors?: {
@@ -33,6 +36,8 @@ export type FormState =
         };
         message?: string;
         ok?:boolean
+        username?:string
+        id?:number
     }
     | undefined;
 
@@ -40,3 +45,14 @@ export type SessionPayload = {
     userId: string | number;
     expiresAt: Date;
 };
+export type BlogFormState = 
+    | {
+        errors?: {
+            title?: string[];
+            content?: string[];
+            
+        };
+        message?: string;
+        ok?:boolean
+    }
+    | undefined;

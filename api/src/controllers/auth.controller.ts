@@ -24,7 +24,7 @@ import { UserResponce } from "../dtos/user.dto";
       if (!user || !isPasswordValid) {
         return res.status(404).json({message:"email or the password are incorrect"})
       }
-      const token = encrypt.generateToken({ id: user.id,email:user.email });
+      const token = encrypt.generateToken({ id: user.id,username:`${user.firstName} ${user.lastName}` });
       const userdataSent = new UserResponce(user)
       return res.status(200).json({ message: "Login successful",userdataSent, token });
   })

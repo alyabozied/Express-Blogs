@@ -7,6 +7,7 @@ import {
 } from '@/app/auth/FormsDefinations';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import decrpytjwt from './decrypt';
 
 
 export async function signup(
@@ -37,10 +38,11 @@ export async function signup(
       body: JSON.stringify({ email, password,firstName,lastName }),
   })
   const data = await response.json();
-  console.log(data)
   if(response.ok){
     (await cookies()).set("session" , data.token)
-    redirect('/dashboard');
+    const{username , id} = decrpytjwt(data.token)
+    const successMessage = { ok:true ,  message: 'Success' ,username:username,id:id};
+    return successMessage
   }else{
     
     return {message:data.message}
@@ -57,7 +59,6 @@ export async function login(
     password: formData.get('password'),
   });
   const errorMessage = { message: 'Invalid login credentials.' };
-  const successMessage = { ok:true ,  message: 'Success' };
   // If any form fields are invalid, return early
   if (!validatedFields.success) {
     return {
@@ -69,11 +70,13 @@ export async function login(
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-  })
-
-  if(response.ok){
-    const data = await response.json();
-    (await cookies()).set("session" , data.token)
+    })
+    
+    if(response.ok){
+      const data = await response.json();
+      (await cookies()).set("session" , data.token)
+      const{username , id} = decrpytjwt(data.token)
+      const successMessage = { ok:true ,  message: 'Success' ,username:username,id:id};
     return successMessage
   }else{
     return errorMessage

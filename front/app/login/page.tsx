@@ -14,8 +14,9 @@ export default function Login(){
     const [formState, action] = useActionState(login, undefined);
     useEffect(()=>{
         if(formState?.ok){
-            setState({isLoggedIn:true})
-            router.push("/dashboard")
+            console.log(formState)
+            setState({isLoggedIn:true,username:formState.username,id:formState.id})
+            router.push("/dashboard?page=1&limit=2")
         }
     },[formState])
     return (

@@ -11,11 +11,14 @@ export default function Navbar() {
   };
   const pathName = usePathname();
   const { state, setState } = useAppContext();
-  console.log(state, "our state")
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-end justify-end mx-auto p-4">
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+      <div className="max-w-screen-xl conatiner justify-between flex flex-wrap items-end mx-auto p-4">
+        <div className="capitalize align-middle py-2 text-2xl dark:text-white text-black" >
+          {state.username?? state.username}
+        </div>
+        <div className="flex-row w-full md:block md:w-auto" id="navbar-default">
           <ul className="font-medium flex  items-end flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <div>
               <NavLink text="Home" url="/" isCurrent={pathName === "/"} />
@@ -23,7 +26,7 @@ export default function Navbar() {
             <div>
               <NavLink
                 text="Dashboard"
-                url="/dashboard"
+                url="/dashboard?page=1&limit=2"
                 isCurrent={pathName === "dashboard"}
               />
             </div>

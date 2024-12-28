@@ -4,6 +4,7 @@ import { Request,Response,NextFunction } from 'express';
 
 const errorHandler = (err:ApiError, req:Request, res:Response, next:NextFunction) => {
   let { statusCode, message } = err;
+  console.log("hii")
   console.log(statusCode,message)
   if (process.env.NODE_ENV === 'production' && !err.isOperational) {
     statusCode = StatusCodes.INTERNAL_SERVER_ERROR;

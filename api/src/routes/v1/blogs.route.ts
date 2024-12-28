@@ -1,7 +1,7 @@
 import express from 'express'
 import validate from '../../middlewares/validate';
 import { authentification } from '../../middlewares/auth.middleware';
-import { createBlog, getBlogs,deleteBlog ,putBlog,patchBlog} from '../../controllers/blogs.controller';
+import { createBlog, getBlog, getBlogs,deleteBlog ,putBlog,patchBlog} from '../../controllers/blogs.controller';
 import { createBlogValidation,deleteBlogValidation,putBlogValidation ,patchBlogValidation} from '../../validations/blogs.validation';
 
 export const blogsRoutes = express.Router( );
@@ -13,6 +13,9 @@ blogsRoutes
   .delete(validate(deleteBlogValidation),authentification,deleteBlog)
   .put(validate(putBlogValidation),authentification,putBlog)
   .patch(validate(patchBlogValidation),authentification,patchBlog);
+blogsRoutes
+.route('/:id')
+.get(authentification,getBlog)
   
 
 export default blogsRoutes;
