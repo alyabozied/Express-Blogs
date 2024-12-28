@@ -10,8 +10,8 @@ const createBlog =  catchAsync( async(req: CustomRequest, res: Response)=> {
     if(!userID){
         return res.status(401).json({message:"unauthorzied user"})
     }
-    await BlogService.createBlog(title,content , userID);
-    return res.status(201).json({message:"created"})
+    const blog = await BlogService.createBlog(title,content , userID);
+    return res.status(201).json({id:blog.id,message:"created"})
   } 
 )
 const deleteBlog = catchAsync(async (req:CustomRequest ,res:Response)=>{
@@ -43,7 +43,7 @@ const putBlog = catchAsync(async (req:CustomRequest, res:Response) => {
     return res.status(401).json({message:"unauthorzied user"})
   }
   await BlogService.updateBlog(id,userId,content,title)
-  return res.status(201).json({message:"blog got put "});
+  return res.status(201).json({id:id,message:"blog got put "});
 });
 
 const patchBlog = catchAsync(async (req:CustomRequest, res:Response) => {
@@ -53,7 +53,7 @@ const patchBlog = catchAsync(async (req:CustomRequest, res:Response) => {
     return res.status(401).json({message:"unauthorzied user"})
   }
   await BlogService.updateBlog(id,userId,content,title)
-  return res.status(201).json({message:"blog got patch "});
+  return res.status(201).json({id:id,message:"blog got patch "});
 });
 
 export {

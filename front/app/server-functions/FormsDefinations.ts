@@ -25,6 +25,7 @@ export const LoginFormSchema = z.object({
 export const BlogFormSchema = z.object({
     title: z.string().min(10 , { message: 'Title must be at least 10 characters long.' }),
     content: z.string().min(10, { message: 'Title must be at least 10 characters long.' }),
+    id:z.string()
 });
 export type FormState =
     | {
@@ -40,19 +41,19 @@ export type FormState =
         id?:number
     }
     | undefined;
-
-export type SessionPayload = {
-    userId: string | number;
-    expiresAt: Date;
-};
 export type BlogFormState = 
     | {
         errors?: {
             title?: string[];
             content?: string[];
-            
         };
         message?: string;
         ok?:boolean
+        blogId?:number
     }
     | undefined;
+
+export type SessionPayload = {
+    userId: string | number;
+    expiresAt: Date;
+};

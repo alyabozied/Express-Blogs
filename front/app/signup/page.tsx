@@ -3,7 +3,7 @@ import { Button } from "@/components/Button";
 import TextField from "@/components/TextField"
 import Link from "next/link"
 import { useAppContext } from '@/context';
-import { signup } from '@/app/auth/auth';
+import { signup } from '@/app/server-functions/auth';
 import {useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation'
 import React, { useActionState, useEffect } from "react";

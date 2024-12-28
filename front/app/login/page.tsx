@@ -4,7 +4,7 @@ import TextField from "@/components/TextField";
 import Link from "next/link";
 import React, { useActionState, useEffect } from "react";
 import { useAppContext } from '@/context';
-import { login } from '@/app/auth/auth';
+import { login } from '@/app/server-functions/auth';
 import {useFormStatus } from 'react-dom';
 import { Button } from '@/components/Button';
 import { useRouter } from 'next/navigation'

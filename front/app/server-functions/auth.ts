@@ -4,7 +4,7 @@ import {
   FormState,
   LoginFormSchema,
   SignupFormSchema,
-} from '@/app/auth/FormsDefinations';
+} from '@/app/server-functions/FormsDefinations';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import decrpytjwt from './decrypt';

@@ -23,6 +23,7 @@ export default async function Dashboard({params , searchParams}:any) {
   const page = (await searchParams).page
   const limit = (await searchParams).limit
   const props: Props = await getServerSideProps(page , limit);
+  console.log(props)
   return (
     <Bounded size="widest">
       <ul className="grid grid-cols-1 gap-16">
@@ -43,8 +44,7 @@ export default async function Dashboard({params , searchParams}:any) {
       </ul>
       <div className="flex justify-between p-5" >
         <NavLink url={`/dashboard?page=${Math.max(parseInt(page)-1,1)}&limit=${limit}`} text="pervious" isCurrent={false}/>
-        <NavLink url={`/dashboard?page=${Math.min(parseInt(page)+1,props.count/parseInt(limit,10))}&limit=${limit}`} text="next" isCurrent={false} />
-        
+        <NavLink url={`/dashboard?page=${Math.min(parseInt(page)+1,Math.ceil(props.count/parseInt(limit,10)))}&limit=${limit}`} text="next" isCurrent={false} />
       </div>
 
       

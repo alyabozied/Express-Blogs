@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/app/auth/auth";
+import { logout } from "@/app/server-functions/auth";
 import { useRouter } from "next/navigation";
 export default function LogoutButton() {
   const router = useRouter();
